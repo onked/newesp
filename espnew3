@@ -159,7 +159,7 @@ function ESP:Get_Tool(Player)
 		if equipped_tool == nil then
 			return "None"
 		else
-			return equipped_tool.Value
+			return tostring(equipped_tool.Value)
 		end
 	else
 		if Character then
