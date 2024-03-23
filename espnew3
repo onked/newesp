@@ -392,7 +392,6 @@ do -- Player Metatable
 							Arrow.PointA = min2(max2(Camera.ViewportSize * 0.5 + direction * 150, Vector2.one * 25), Camera.ViewportSize - Vector2.one * 25)
 							Arrow.PointB = Arrow.PointA - rotateVector(direction, 0.45) * 15
 							Arrow.PointC = Arrow.PointA - rotateVector(direction, -0.45) * 15
-							Arrow.Color = ESP.Color
 						end
 					end
 					Arrow.Visible = Arrow_Enabled
@@ -728,7 +727,7 @@ do -- ESP Functions
 		local Components = Object.Components
 		Components.Box = Framework:Draw("Square", {Thickness = 1, ZIndex = 2})
 		Components.Tracer = Framework:Draw("Line", {Thickness = 1, ZIndex = 2})
-		Components.Arrow = Framework:Draw("Triangle", {Thickness = 0, ZIndex = 2, Filled = true})
+		Components.Arrow = Framework:Draw("Triangle", {Thickness = 0, Filled = true})
 		Components.Box_Outline = Framework:Draw("Square", {Thickness = 3, ZIndex = 1})
 		Components.Healthbar = Framework:Draw("Square", {Thickness = 1, ZIndex = 2, Filled = true})
 		Components.Healthbar_Outline = Framework:Draw("Square", {Thickness = 3, ZIndex = 1, Filled = true})
