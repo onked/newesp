@@ -152,7 +152,7 @@ function ESP:Get_Tool(Player)
 	end
 	local Character = self:Get_Character(Player)
 	
-	if game.PlaceId == 7336302630 then 
+	if game.PlaceId == 7336302630 or game.PlaceId == 7353845952 then 
 		local Tool = game.ReplicatedStorage.Players[Player.Name].Status.GameplayVariables.EquippedTool
 		local toolObject = Tool.Value
 		local FoundTool = toolObject ~= nil and toolObject.Name or "None"
@@ -231,12 +231,6 @@ function ESP:Check_Visible(Target, FromHead)
 		end
 	end
 	return Passed
-end
-
-local function rotateVector(vector, radians)
-	local x, y = vector.X, vector.Y
-	local c, s = math.cos(radians), math.sin(radians)
-	return Vector2.new(x*c - y*s, x*s + y*c)
 end
 
 local Player_Metatable = {}
