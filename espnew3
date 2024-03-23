@@ -155,11 +155,12 @@ function ESP:Get_Tool(Player)
 	if game.PlaceId == 7336302630 then 
 		local status = game.ReplicatedStorage.Players[Player.Name]:FindFirstChild("Status")
 		local equipped_tool = status.GameplayVariables.EquippedTool.Value
+		local inventory_equipped_tool = game.ReplicatedStorage.Players[Player.Name].Inventory:FindFirstChild(tostring(equipped_tool))
 		
 		if equipped_tool == nil then
 			return "None"
 		else
-			return tostring(equipped_tool.Value)
+			return inventory_equipped_tool.Value
 		end
 	else
 		if Character then
