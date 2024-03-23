@@ -105,7 +105,6 @@ local ESP; ESP = {
 		Chams = {Enabled = false, Color = Color3.new(1, 1, 1), Mode = "Visible", OutlineColor = Color3.new(0, 0, 0), Transparency = 0.5, OutlineTransparency = 0},
 		Image = {Enabled = false, Image = "Taxi", Raw = Images.Taxi},
 		Tracer = {Enabled = false, Thickness = 1, Color = Color3.new(1,1,1)},
-		Arrow = {Enabled = false, Thickness = 0, Color = Color3.new(1,1,1), Filled = true, MaxDistance = 250},
 		China_Hat = {Enabled = false, Color = Color3.new(1, 1, 1), Transparency = 0.5, Height = 0.5, Radius = 1, Offset = 1}
 	},
 	Objects = {},
@@ -152,12 +151,25 @@ function ESP:Get_Tool(Player)
 		return self.Overrides.Get_Tool(Player)
 	end
 	local Character = self:Get_Character(Player)
-	if Character then
-		local Tool = Character:FindFirstChildOfClass("Tool")
-		if Tool then
-			return Tool.Name
+	
+	if game.PlaceId == 7336302630 then 
+		local status = game.ReplicatedStorage.Players[Player.Name]:FindFirstChild("Status")
+		local equipped_tool = status.GameplayVariables.EquippedTool.Value
+		
+		if equipped_tool == nil then
+			return "None"
+		else
+			return equipped_tool.Value
+		end
+	else
+		if Character then
+			local Tool = Character:FindFirstChildOfClass("Tool")
+			if Tool then
+				return Tool.Name
+			end
 		end
 	end
+	
 	return "Hands"
 end
 
@@ -370,32 +382,7 @@ do -- Player Metatable
 						Tracers.To = Vector2.new(Camera.ViewportSize.X/2,Camera.ViewportSize.Y/1)
 					end
 					Tracers.Visible = Tracer_Enabled
-					
-					-- Arrow
-					local Arrow_Settings = ESP.Settings.Arrow
-					local Arrow_Enabled = Arrow_Settings.Enabled
-					local Arrow_Color = Arrow_Settings.Color
-					local Arrow_Thickness = Arrow_Settings.Thickness
-					if Arrow_Enabled then
-						Arrow.Color = Arrow_Color
-						Arrow.Thickness = Arrow_Thickness
-						
-						local distance = (HumanoidRootPart.Position - Camera.CFrame.Position).Magnitude
-						local cframe = Camera.CFrame
-						local flat = CFrame.fromMatrix(cframe.Position, cframe.RightVector, Vector3.yAxis)
-						local objectSpace = CFrame.identity.PointToObjectSpace(flat, Head.Position)
-						local direction = Vector2.new(objectSpace.X, objectSpace.Z).Unit
-						if distance < Arrow_Settings.MaxDistance then
-							local min2 = Vector2.zero.Min
-							local max2 = Vector2.zero.Max
-
-							Arrow.PointA = min2(max2(Camera.ViewportSize * 0.5 + direction * 150, Vector2.one * 25), Camera.ViewportSize - Vector2.one * 25)
-							Arrow.PointB = Arrow.PointA - rotateVector(direction, 0.45) * 15
-							Arrow.PointC = Arrow.PointA - rotateVector(direction, -0.45) * 15
-						end
-					end
-					Arrow.Visible = Arrow_Enabled
-					
+				
 					-- Healthbar
 					local Health_Top_Size_Outline = Vector2.new(Box_Size.X - 4, 3)
 					local Health_Top_Pos_Outline = Box_Position + Vector2.new(2, Box_Size.Y - 6)
@@ -727,7 +714,6 @@ do -- ESP Functions
 		local Components = Object.Components
 		Components.Box = Framework:Draw("Square", {Thickness = 1, ZIndex = 2})
 		Components.Tracer = Framework:Draw("Line", {Thickness = 1, ZIndex = 2})
-		Components.Arrow = Framework:Draw("Triangle", {Thickness = 0, Filled = true})
 		Components.Box_Outline = Framework:Draw("Square", {Thickness = 3, ZIndex = 1})
 		Components.Healthbar = Framework:Draw("Square", {Thickness = 1, ZIndex = 2, Filled = true})
 		Components.Healthbar_Outline = Framework:Draw("Square", {Thickness = 3, ZIndex = 1, Filled = true})
