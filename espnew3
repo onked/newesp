@@ -107,6 +107,11 @@ local ESP; ESP = {
 		Tracer = {Enabled = false, Thickness = 1, Color = Color3.new(1,1,1)},
 		China_Hat = {Enabled = false, Color = Color3.new(1, 1, 1), Transparency = 0.5, Height = 0.5, Radius = 1, Offset = 1}
 	},
+	SettingsAi = {
+		Name = {Enabled = false},
+		Health = {Enabled = false},
+		Distance = {Enabled = false},
+	},
 	Objects = {},
 	Overrides = {},
 	China_Hat = {}
@@ -662,14 +667,32 @@ do  -- Object Metatable
 		end
 
 		local Vector, On_Screen = Camera:WorldToViewportPoint(self.PrimaryPart.Position + Vector3.new(0, 1, 0))
-
+		local AiChr = self.PrimaryPart.Parent
+		
+		
 		local Meter_Distance = math.floor(Vector.Z / 3.5714285714 + 0.5)
 
 		if On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance then
 			-- Name
-			Name.Text = self.Name .. " [" .. math.floor(Vector.Z / 3.5714285714 + 0.5) .. "m]"
+			if ESP.SettingsAi.Distance.Enabled then
+				Name.Text = self.Name .. " [" .. math.floor(Vector.Z / 3.5714285714 + 0.5) .. "m]"
+			elseif ESP.SettingsAi.Health.Enabled then
+				if AiChr:FindFirstChild("Humanoid") then
+					local aiHum = AiChr:FindFirstChild("Humanoid")
+					Name.Text = self.Name .. " [" .. aiHum.Health.."/"..aiHum.MaxHealth .. "]"
+				end
+			elseif ESP.SettingsAi.Distance.Enabled and ESP.SettingsAi.Health.Enabled then
+				if AiChr:FindFirstChild("Humanoid") then
+					local aiHum = AiChr:FindFirstChild("Humanoid")
+					Name.Text = self.Name .. " [" .. aiHum.Health.."/"..aiHum.MaxHealth .. "] " .. "," .. " [" .. math.floor(Vector.Z / 3.5714285714 + 0.5) .. "m]"
+				else
+					Name.Text = self.Name .. " [" .. math.floor(Vector.Z / 3.5714285714 + 0.5) .. "m]"
+				end
+			elseif not ESP.SettingsAi.Health.Enabled and not ESP.SettingsAi.Distance.Enabled then
+				Name.Text = self.Name
+			end
 			Name.Position = Framework:V3_To_V2(Vector)
-			Name.Visible = true
+			Name.Visible = ESP.SettingsAi.Name.Enabled
 
 			-- Addition
 			if self.Addition.Text ~= "" then
@@ -678,6 +701,8 @@ do  -- Object Metatable
 			else
 				Addition.Visible = false
 			end
+			
+			
 		else
 			Name.Visible = false
 			Addition.Visible = false
