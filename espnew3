@@ -94,6 +94,7 @@ local ESP; ESP = {
 		Improved_Visible_Check = false,
 		Maximal_Distance = 1000,
 		Object_Maximal_Distance = 1000,
+		VisibleCheckColor = Color3.new(1, 0, 0),
 		Highlight = {Enabled = false, Color = Color3.new(1, 0, 0), Target = ""},
 		Box = {Enabled = false, Color = Color3.new(1, 1, 1), Transparency = 0},
 		Box_Outline = {Enabled = false, Color = Color3.new(0, 0, 0), Transparency = 0, Outline_Size = 1},
@@ -329,6 +330,13 @@ do -- Player Metatable
 				else
 					Good = true
 				end
+				
+				local visibleCheck = false
+				if ESP:Check_Visible(Head) or ESP:Check_Visible(HumanoidRootPart) then
+					if ESP.Settings.Improved_Visible_Check then
+						visibleCheck = true
+					end
+				end
 
 				if ESP.Settings.Enabled and On_Screen and Meter_Distance < ESP.Settings.Maximal_Distance and Good then
 					local Highlight_Settings = ESP.Settings.Highlight
@@ -346,6 +354,9 @@ do -- Player Metatable
 					Box.Size = Box_Size
 					Box.Position = Box_Position
 					Box.Color = Is_Highlighted and Highlight_Color or Box_Settings.Color
+					if visibleCheck then
+						Box.Color = ESP.Settings.VisibleCheckColor
+					end
 					Box.Transparency = Framework:Drawing_Transparency(Box_Settings.Transparency)
 					Box.Visible = Box_Settings.Enabled
 
@@ -353,6 +364,9 @@ do -- Player Metatable
 					Box_Outline.Size = Box_Size
 					Box_Outline.Position = Box_Position
 					Box_Outline.Color = Box_Outline_Settings.Color
+					if visibleCheck then
+						Box_Outline.Color = ESP.Settings.VisibleCheckColor
+					end
 					Box_Outline.Thickness = Box_Outline_Settings.Outline_Size + 2
 					Box_Outline.Transparency = Framework:Drawing_Transparency(Box_Outline_Settings.Transparency)
 					Box_Outline.Visible = Box_Settings.Enabled and Box_Outline_Settings.Enabled or false
@@ -373,6 +387,9 @@ do -- Player Metatable
 					
 					if Tracer_Enabled then
 						Tracers.Color = Tracer_Color
+						if visibleCheck then
+							Tracers.Color = ESP.Settings.VisibleCheckColor
+						end
 						Tracers.Thickness = Tracer_Thickness
 						
 						Tracers.From = Vector2.new(HRP_Position.X, HRP_Position.Y)
@@ -449,7 +466,13 @@ do -- Player Metatable
 						Right_Offset = Right_Offset + 10
 					end
 					Name.Color = Is_Highlighted and Highlight_Color or Name_Settings.Color
+					if visibleCheck then
+						Name.Color = ESP.Settings.VisibleCheckColor
+					end
 					Name.OutlineColor = Name_Settings.OutlineColor
+					if visibleCheck then
+						Name.OutlineColor = ESP.Settings.VisibleCheckColor
+					end
 					Name.Transparency = Framework:Drawing_Transparency(Name_Settings.Transparency)
 					Name.Visible = Name_Settings.Enabled
 					NameBold.Color = Is_Highlighted and Highlight_Color or Name_Settings.Color
@@ -484,7 +507,13 @@ do -- Player Metatable
 					end
 					Distance.Text = Meter_Distance.."m"
 					Distance.Color = Is_Highlighted and Highlight_Color or Distance_Settings.Color
+					if visibleCheck then
+						Distance.Color = ESP.Settings.VisibleCheckColor
+					end
 					Distance.OutlineColor = Distance_Settings.OutlineColor
+					if visibleCheck then
+						Distance.OutlineColor = ESP.Settings.VisibleCheckColor
+					end
 					Distance.Transparency = Framework:Drawing_Transparency(Distance_Settings.Transparency)
 					Distance.Visible = Distance_Settings.Enabled
 					DistanceBold.Text = Meter_Distance.."m"
@@ -520,12 +549,24 @@ do -- Player Metatable
 					end
 					Tool.Text = ESP:Get_Tool(self.Player)
 					Tool.Color = Is_Highlighted and Highlight_Color or Tool_Settings.Color
+					if visibleCheck then
+						Tool.Color = ESP.Settings.VisibleCheckColor
+					end
 					Tool.OutlineColor = Tool_Settings.OutlineColor
+					if visibleCheck then
+						Tool.OutlineColor = ESP.Settings.VisibleCheckColor
+					end
 					Tool.Transparency = Framework:Drawing_Transparency(Tool_Settings.Transparency)
 					Tool.Visible = Tool_Settings.Enabled
 					ToolBold.Text = ESP:Get_Tool(self.Player)
 					ToolBold.Color = Is_Highlighted and Highlight_Color or Tool_Settings.Color
+					if visibleCheck then
+						ToolBold.Color = ESP.Settings.VisibleCheckColor
+					end
 					ToolBold.OutlineColor = Tool_Settings.OutlineColor
+					if visibleCheck then
+						ToolBold.OutlineColor = ESP.Settings.VisibleCheckColor
+					end
 					ToolBold.Transparency = Framework:Drawing_Transparency(Tool_Settings.Transparency)
 					ToolBold.Position = Tool.Position + Vector2.new(1, 0)
 					ToolBold.Visible = Tool.Visible and ESP.Settings.Bold_Text
@@ -556,7 +597,13 @@ do -- Player Metatable
 					end
 					Health.Text = tostring(math.floor(Current_Health + 0.5))
 					Health.Color = Health_Lerp_Color
+					if visibleCheck then
+						Health.Color = ESP.Settings.VisibleCheckColor
+					end
 					Health.OutlineColor = Health_Settings.OutlineColor
+					if visibleCheck then
+						Health.OutlineColor = ESP.Settings.VisibleCheckColor
+					end
 					Health.Transparency = Framework:Drawing_Transparency(Health_Settings.Transparency)
 					Health.Visible = Health_Settings.Enabled
 					HealthBold.Text = tostring(math.floor(Current_Health + 0.5))
