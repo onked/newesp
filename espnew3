@@ -149,7 +149,12 @@ function ESP:Get_Character(Player)
 	if ESP.Overrides.Get_Character ~= nil then
 		return ESP.Overrides.Get_Character(Player)
 	end
-	return Player.Character
+	
+	if game.PlaceId == 15327728308 then
+		return Player.Character.WorldCharacter
+	else
+		return Player.Character
+	end
 end
 
 function ESP:Get_Tool(Player)
@@ -185,7 +190,11 @@ function ESP:Get_Health(Player)
 	if Character then
 		local Humanoid = Character:FindFirstChildOfClass("Humanoid")
 		if Humanoid then
-			return Humanoid.Health
+			if game.PlaceId == 15327728308 then
+				return 1
+			else
+				return Humanoid.Health
+			end
 		end
 	end
 	return 100
