@@ -151,7 +151,11 @@ function ESP:Get_Character(Player)
 	end
 	
 	if game.PlaceId == 15327728308 then
-		return Player.Character.WorldCharacter
+		if Player.Character:FindFirstChild("WorldCharacter") then
+			return Player.Character.WorldCharacter
+		else
+			return Player.Character
+		end
 	else
 		return Player.Character
 	end
