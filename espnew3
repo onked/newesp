@@ -749,10 +749,10 @@ do  -- Object Metatable
 			Name.Position = Framework:V3_To_V2(Vector)
 			Name.Visible = ESP.SettingsAi.Name.Enabled
 			
-			Health.Position = Framework:V3_To_V2(Vector - Vector3.new(0, -1, 0))
+			Health.Position = Framework:V3_To_V2(Vector + Vector3.new(0, 3, 0))
 			Health.Visible = ESP.SettingsAi.Health.Enabled
 			
-			Distance.Position = Framework:V3_To_V2(Vector - Vector3.new(0, -2, 0))
+			Distance.Position = Framework:V3_To_V2(Vector - Vector3.new(0, -3, 0))
 			Distance.Visible = ESP.SettingsAi.Distance.Enabled
 
 			-- Addition
@@ -762,8 +762,6 @@ do  -- Object Metatable
 			else
 				Addition.Visible = false
 			end
-			
-			
 		else
 			Name.Visible = false
 			Health.Visible = false
