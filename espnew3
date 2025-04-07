@@ -736,14 +736,16 @@ do  -- Object Metatable
 		local AiChr = self.PrimaryPart.Parent
 		local Meter_Distance = math.floor(Vector.Z / 3.5714285714 + 0.5)
 
-		if On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance then
+		if On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance and AiChr then
 			Name.Text = self.Name
 			Distance.Text = Meter_Distance .. "m"
-			if AiChr:FindFirstChild("Humanoid") then
-				local aiHum = AiChr:FindFirstChild("Humanoid")
-				Health.Text = aiHum.Health .. "/" .. aiHum.MaxHealth
-			else
-				Health.Visible = false
+			if AiChr and AiChr.Parent ~= nil then
+				if AiChr:FindFirstChild("Humanoid") then
+					local aiHum = AiChr:FindFirstChild("Humanoid")
+					Health.Text = aiHum.Health .. "/" .. aiHum.MaxHealth
+				else
+					Health.Visible = false
+				end
 			end
 			
 			Name.Position = Framework:V3_To_V2(Vector)
