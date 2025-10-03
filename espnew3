@@ -113,6 +113,11 @@ local ESP; ESP = {
 		Health = {Enabled = false},
 		Distance = {Enabled = false},
 	},
+	ObjectESP = {
+		Enabled = false,
+		Name = {Enabled = false},
+		Distance = {Enabled = false}
+	},
 	Objects = {},
 	Overrides = {},
 	China_Hat = {}
@@ -750,14 +755,48 @@ do  -- Object Metatable
 			
 			Name.Position = Framework:V3_To_V2(Vector)
 			Name.Visible = ESP.SettingsAi.Name.Enabled
+
+			Health.Position = Framework:V3_To_V2(Vector + Vector3.new(0, 9, 0))
+			Health.Visible = ESP.SettingsAi.Health.Enabled
+
+			Distance.Position = Framework:V3_To_V2(Vector - Vector3.new(0, -9, 0))
+			Distance.Visible = ESP.SettingsAi.Distance.Enabled
 			
-			Health.Position = Framework:V3_To_V2(Vector + Vector3.new(0, 3, 0))
+			Name.Position = Framework:V3_To_V2(Vector)
+			Name.Visible = ESP.SettingsAi.Name.Enabled
+			
+			Health.Position = Framework:V3_To_V2(Vector + Vector3.new(0, 9, 0))
 			Health.Visible = ESP.SettingsAi.Health.Enabled
 			
-			Distance.Position = Framework:V3_To_V2(Vector - Vector3.new(0, -3, 0))
+			Distance.Position = Framework:V3_To_V2(Vector - Vector3.new(0, -9, 0))
 			Distance.Visible = ESP.SettingsAi.Distance.Enabled
 
 			-- Addition
+			if self.Addition.Text ~= "" then
+				Addition.Position = Name.Position + Vector2.new(0, Name.TextBounds.Y)
+				Addition.Visible = true
+			else
+				Addition.Visible = false
+			end
+		elseif On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance and not AiChr:FindFirstChild("Humanoid") then
+			if not ESP.ObjectESP.Enabled then
+				Name.Visible = false
+				Health.Visible = false
+				Distance.Visible = false
+				Addition.Visible = false
+				return
+			end
+			
+			Name.Text = self.Name
+			Distance.Text = Meter_Distance .. "m"
+			Health.Visible = false
+			
+			Name.Position = Framework:V3_To_V2(Vector)
+			Name.Visible = ESP.ObjectESP.Name.Enabled
+
+			Distance.Position = Framework:V3_To_V2(Vector - Vector2.new(0, Name.TextBounds.Y))
+			Distance.Visible = ESP.ObjectESP.Distance.Enabled
+			
 			if self.Addition.Text ~= "" then
 				Addition.Position = Name.Position + Vector2.new(0, Name.TextBounds.Y)
 				Addition.Visible = true
