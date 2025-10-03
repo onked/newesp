@@ -744,14 +744,6 @@ do  -- Object Metatable
 		if On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance and AiChr and self.Type == "Bandit" then
 			Name.Text = self.Name
 			Distance.Text = Meter_Distance .. "m"
-			if AiChr and AiChr.Parent ~= nil then
-				if AiChr:FindFirstChild("Humanoid") then
-					local aiHum = AiChr:FindFirstChild("Humanoid")
-					Health.Text = aiHum.Health .. "/" .. aiHum.MaxHealth
-				else
-					Health.Visible = false
-				end
-			end
 			
 			Name.Position = Framework:V3_To_V2(Vector)
 			Name.Visible = ESP.SettingsAi.Name.Enabled
@@ -760,7 +752,15 @@ do  -- Object Metatable
 			Distance.Visible = ESP.SettingsAi.Distance.Enabled
 
 			Health.Position = Distance.Position + Vector2.new(0, Distance.TextBounds.Y)
-			Health.Visible = ESP.SettingsAi.Health.Enabled
+			if AiChr and AiChr.Parent ~= nil then
+				if AiChr:FindFirstChild("Humanoid") then
+					local aiHum = AiChr:FindFirstChild("Humanoid")
+					Health.Text = aiHum.Health .. "/" .. aiHum.MaxHealth
+					Health.Visible = ESP.SettingsAi.Health.Enabled
+				else
+					Health.Visible = false
+				end
+			end
 
 			
 			-- Addition
