@@ -757,21 +757,11 @@ do  -- Object Metatable
 			Name.Position = Framework:V3_To_V2(Vector)
 			Name.Visible = ESP.SettingsAi.Name.Enabled
 
-			Health.Position = Framework:V3_To_V2(Vector + Vector3.new(0, 9, 0))
+			Health.Position = Framework:V3_To_V2(Vector + Vector3.new(0, Name.TextBounds.Y))
 			Health.Visible = ESP.SettingsAi.Health.Enabled
 
-			Distance.Position = Framework:V3_To_V2(Vector - Vector3.new(0, -9, 0))
+			Distance.Position = Framework:V3_To_V2(Vector - Vector3.new(0, Health.TextBounds.Y))
 			Distance.Visible = ESP.SettingsAi.Distance.Enabled
-			
-			Name.Position = Framework:V3_To_V2(Vector)
-			Name.Visible = ESP.SettingsAi.Name.Enabled
-			
-			Health.Position = Framework:V3_To_V2(Vector + Vector3.new(0, 9, 0))
-			Health.Visible = ESP.SettingsAi.Health.Enabled
-			
-			Distance.Position = Framework:V3_To_V2(Vector - Vector3.new(0, -9, 0))
-			Distance.Visible = ESP.SettingsAi.Distance.Enabled
-
 			-- Addition
 			if self.Addition.Text ~= "" then
 				Addition.Position = Name.Position + Vector2.new(0, Name.TextBounds.Y)
