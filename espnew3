@@ -741,7 +741,7 @@ do  -- Object Metatable
 		local AiChr = self.PrimaryPart.Parent
 		local Meter_Distance = math.floor(Vector.Z / 3.5714285714 + 0.5)
 
-		if On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance and AiChr then
+		if On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance and AiChr and self.Data.Type == "Bandit" then
 			Name.Text = self.Name
 			Distance.Text = Meter_Distance .. "m"
 			if AiChr and AiChr.Parent ~= nil then
@@ -778,7 +778,7 @@ do  -- Object Metatable
 			else
 				Addition.Visible = false
 			end
-		elseif On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance and not AiChr:FindFirstChild("Humanoid") then
+		elseif On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance and not AiChr:FindFirstChild("Humanoid") and self.Data.Type ~= "Bandit" then
 			if not ESP.ObjectESP.Enabled then
 				Name.Visible = false
 				Health.Visible = false
