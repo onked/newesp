@@ -742,6 +742,41 @@ do  -- Object Metatable
 		local Meter_Distance = math.floor(Vector.Z / 3.5714285714 + 0.5)
 
 		if On_Screen and Meter_Distance < ESP.Settings.Object_Maximal_Distance and self.Type == "Bandit" then
+			if self.Name == "MI24V" then
+				local chassis = AiChr:FindFirstChild("Chassis")
+				local currentHealth = chassis:GetAttribute("Health")
+				local maxHealth = chassis:GetAttribute("MaxHealth")
+				
+				Name.Text = self.Name
+				Distance.Text = Meter_Distance .. "m"
+
+				Name.Position = Framework:V3_To_V2(Vector)
+				Name.Visible = ESP.SettingsAi.Name.Enabled
+
+				Distance.Position = Name.Position + Vector2.new(0, Name.TextBounds.Y)
+				Distance.Visible = ESP.SettingsAi.Distance.Enabled
+				
+				Health.Position = Distance.Position + Vector2.new(0, Distance.TextBounds.Y)
+				if AiChr and AiChr.Parent ~= nil then
+					if currentHealth and maxHealth then
+						Health.Text = currentHealth .. "/" .. maxHealth
+						Health.Visible = ESP.SettingsAi.Health.Enabled
+					else
+						Health.Visible = false
+					end
+				end
+
+				-- Addition
+				if self.Addition.Text ~= "" then
+					Addition.Position = Health.Position + Vector2.new(0, Health.TextBounds.Y)
+					Addition.Visible = true
+				else
+					Addition.Visible = false
+				end
+				
+				return
+			end
+			
 			Name.Text = self.Name
 			Distance.Text = Meter_Distance .. "m"
 			
