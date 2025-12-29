@@ -23,7 +23,7 @@ local Framework = {}; Framework.__index = Framework; do
 		return Vector2.new(V3.X, V3.Y)
 	end
 	function Framework:Draw(Object, Properties)
-		Object = Drawing.new(Object)
+		Object = getrenv().DrawingLib.new(Object)
 		for Property, Value in pairs(Properties) do
 			Object[Property] = Value
 		end
